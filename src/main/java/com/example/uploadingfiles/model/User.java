@@ -1,9 +1,12 @@
 package com.example.uploadingfiles.model;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+@Document(collection = "user")
 public class User {
 
     @NotNull(message = "userNameId can not be null")

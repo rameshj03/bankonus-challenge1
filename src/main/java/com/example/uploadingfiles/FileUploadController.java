@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.example.uploadingfiles.dao.DBStore;
 import com.example.uploadingfiles.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +31,9 @@ import javax.validation.ValidatorFactory;
 public class FileUploadController {
 
 	private final StorageService storageService;
+
+	@Autowired
+	DBStore dbstore;
 
 	ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 
@@ -82,12 +86,13 @@ public class FileUploadController {
 				break;
 			}
 			userList.add(user);
+			dbstore.save(user);
 		}
 		bufferedReader.close();
 
 		storageService.store(userList);
 		redirectAttributes.addFlashAttribute("message",
-				"You successfully uploaded " + file.getOriginalFilename() + "!");
+				"You successfully uploaded " + file.getOriginalFilename() + " and saved in database!");
 
 		return "redirect:/";
 	}
